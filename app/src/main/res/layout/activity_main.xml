@@ -1,18 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_margin="20dp">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/status_title"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/bt1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@id/bt5"
+        android:layout_alignEnd="@id/bt5"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonOne"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@id/bt5"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_background"
+        android:onClick="buttonTwo"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@id/bt5"
+        android:layout_alignStart="@id/bt2"
+        android:layout_marginStart="120dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonThree"
+        android:textSize="32sp" />
+
+
+    <Button
+        android:id="@+id/bt4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignEnd="@id/bt5"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonFour"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt5"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonFive"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt6"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignStart="@id/bt5"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="120dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonSix"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt7"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignEnd="@id/bt5"
+        android:layout_below="@id/bt5"
+        android:layout_marginEnd="120dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonSeven"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt8"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/bt5"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_background"
+        android:onClick="buttonEight"
+        android:textSize="32sp" />
+
+    <Button
+        android:id="@+id/bt9"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignStart="@id/bt8"
+        android:layout_below="@id/bt5"
+        android:layout_marginStart="120dp"
+        android:background="@drawable/button_background"
+        android:onClick="buttonNine"
+        android:textSize="32sp" />
+
+</RelativeLayout>

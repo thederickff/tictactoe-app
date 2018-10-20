@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TicTacToeApp</string>
+    <string name="clear_action">CLEAR</string>
+    <string name="status_title">Status:</string>
 </resources>
