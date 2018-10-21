@@ -1,8 +1,10 @@
 package com.github.derickfelix.tictactoeapp;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,8 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +26,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private DatabaseReference mDatabase;
+    private DatabaseReference mBoard;
 
     private TextView status;
     private List<Button> buttons;
+    private List<Integer> board;
 
     private boolean circle;
 
@@ -33,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mBoard = mDatabase.child("board");
+
         buttons = new ArrayList<>();
 
         status = findViewById(R.id.tv_status);
@@ -56,6 +65,34 @@ public class MainActivity extends AppCompatActivity {
         buttons.add(button7);
         buttons.add(button8);
         buttons.add(button9);
+
+        //Board board = new Board();
+        board = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            board.add(Board.EMPTY);
+        }
+
+        mBoard.setValue(board);
+
+        mBoard.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+            {
+                board = new ArrayList<>();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    board.add(ds.getValue(Integer.class));
+                }
+
+                updateUI();
+                circle = !circle;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError)
+            {
+                Log.e(TAG, databaseError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -70,9 +107,12 @@ public class MainActivity extends AppCompatActivity {
     {
         switch (item.getItemId()) {
             case R.id.clear_action:
-                for (Button button : buttons) {
-                    button.setText("");
+                for (int i = 0; i < board.size(); i++) {
+                    board.set(i, Board.EMPTY);
                 }
+
+                mBoard.setValue(board);
+
                 return true;
         }
 
@@ -81,64 +121,84 @@ public class MainActivity extends AppCompatActivity {
 
     public void buttonOne(View view)
     {
-        updateValue(buttons.get(0));
+        updateBoard(0);
     }
 
     public void buttonTwo(View view)
     {
-        updateValue(buttons.get(1));
+        updateBoard(1);
     }
 
     public void buttonThree(View view)
     {
-        updateValue(buttons.get(2));
+        updateBoard(2);
     }
 
     public void buttonFour(View view)
     {
-        updateValue(buttons.get(3));
+        updateBoard(3);
     }
 
     public void buttonFive(View view)
     {
-        updateValue(buttons.get(4));
+        updateBoard(4);
     }
 
     public void buttonSix(View view)
     {
-        updateValue(buttons.get(5));
+        updateBoard(5);
     }
 
     public void buttonSeven(View view)
     {
-        updateValue(buttons.get(6));
+        updateBoard(6);
     }
 
     public void buttonEight(View view)
     {
-        updateValue(buttons.get(7));
+        updateBoard(7);
     }
 
     public void buttonNine(View view)
     {
-        updateValue(buttons.get(8));
+        updateBoard(8);
     }
 
-    void updateValue(Button button)
+    private void updateBoard(int position)
     {
-        if (TextUtils.isEmpty(button.getText().toString())) {
-
+        if (board.get(position) == Board.EMPTY) {
             if (circle) {
-                button.setTextColor(getResources().getColor(R.color.colorO));
-                button.setText("O");
+                board.set(position, Board.P1);
             } else {
-                button.setTextColor(getResources().getColor(R.color.colorX));
-                button.setText("X");
+                board.set(position, Board.P2);
             }
+        }
 
-            status.setTextColor(button.getCurrentTextColor());
-            status.setText(button.getText());
-            circle = !circle;
+        mBoard.setValue(board);
+        //status.setTextColor(button.getCurrentTextColor());
+        //status.setText(button.getText());
+    }
+
+    private void updateUI()
+    {
+        for (int i = 0; i < buttons.size(); i++) {
+            Button button = buttons.get(i);
+            int value = board.get(i);
+
+            switch (value) {
+                case Board.P1:
+                    button.setTextColor(getResources().getColor(R.color.colorO));
+                    button.setText("O");
+                    break;
+                case Board.P2:
+                    button.setTextColor(getResources().getColor(R.color.colorX));
+                    button.setText("X");
+                    break;
+                case Board.EMPTY:
+                    button.setText("");
+                    break;
+
+            }
         }
     }
 }
